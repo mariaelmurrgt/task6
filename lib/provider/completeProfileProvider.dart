@@ -4,7 +4,6 @@ import 'package:task6/models/state.dart';
 import 'package:task6/service/completeProfileService.dart';
 import '../models/country.dart';
 import '../models/city.dart';
-import 'package:provider/provider.dart';
 
 class CompleteProfileProvider with ChangeNotifier {
   CompleteProfileService service = CompleteProfileService();
@@ -17,6 +16,8 @@ class CompleteProfileProvider with ChangeNotifier {
   StateModel? _selectedState;
   City? _selectedCity;
   Language? _selectedLanguage;
+
+  bool _isLoading = true;
 
   List<Country> get countries => _countries;
   List<StateModel> get states => _states;
@@ -48,9 +49,12 @@ class CompleteProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  updateSelectedCountry(Country newCountry) {
+  updateSelectedCountry(Country newCountry) async {
     Country updatedCountry = newCountry;
     _selectedCountry = updatedCountry;
+    resetCity();
+    resetState();
+    await getStatesByCountryId(newCountry);
     notifyListeners();
   }
 
@@ -59,9 +63,11 @@ class CompleteProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  updateSelectedState(StateModel newState) {
+  updateSelectedState(StateModel newState) async {
     StateModel updatedState = newState;
     _selectedState = updatedState;
+    resetCity();
+    await getCitiesByStateId(newState);
     notifyListeners();
   }
 

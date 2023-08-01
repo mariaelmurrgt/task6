@@ -93,10 +93,10 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           onChanged: (newValue) async {
-                            provider.updateSelectedCountry(newValue!);
-                            provider.resetState();
-                            provider.resetCity();
-                            await provider.getStatesByCountryId(newValue);
+                            await provider.updateSelectedCountry(newValue!);
+                            //provider.resetState();
+                            //provider.resetCity();
+                            //await provider.getStatesByCountryId(newValue);
                           },
                           items: provider.countries.map((country) {
                             return DropdownMenuItem(
@@ -143,9 +143,9 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           onChanged: (newValue) async {
-                            provider.updateSelectedState(newValue!);
-                            provider.resetCity();
-                            await provider.getCitiesByStateId(newValue);
+                            await provider.updateSelectedState(newValue!);
+                            //provider.resetCity();
+                            //await provider.getCitiesByStateId(newValue);
                           },
                           items: provider.states.map((state) {
                             return DropdownMenuItem(

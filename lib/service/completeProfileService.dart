@@ -48,7 +48,7 @@ class CompleteProfileService {
   Future<List<City>> getCityByStateId(StateModel state) async {
     try {
       var response = await http.get(Uri.parse(
-          "http://192.168.88.10:30513/otonomus/common/api/v1/state/${state.idState}/cities"));
+          "http://192.168.88.10:30513/otonomus/common/api/v1/state/%${state.idState}/cities"));
       var decodedResponse = jsonDecode(response.body);
       var result = decodedResponse['data'];
 
