@@ -40,6 +40,7 @@ class AvailableSpace {
   double spaceRating;
   int spacePrice;
   List<String> spaceImages;
+  int currentIndex = 0;
 
   AvailableSpace({
     required this.spaceId,

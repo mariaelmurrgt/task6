@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 
 class PropertyProvider with ChangeNotifier {
   PropertyService service = PropertyService();
-
   List<PropertyModel> _properties = [];
-  List<AvailableSpace> _availableSpaces = [];
+
   PropertyModel? _selectedProperty;
 
   List<PropertyModel> get properties => _properties;
-  List<AvailableSpace> get availableSpaces => _availableSpaces;
   PropertyModel? get selectedProperty => _selectedProperty;
 
   set properties(List<PropertyModel> newProperties) {
@@ -20,6 +18,7 @@ class PropertyProvider with ChangeNotifier {
 
   getAllProperties() async {
     _properties = await service.getAllProperties();
+    _selectedProperty = _properties.first;
     print("Fetched countries: $_properties");
     notifyListeners();
   }
@@ -27,13 +26,11 @@ class PropertyProvider with ChangeNotifier {
   updateSelectedProperty(PropertyModel newProperty) async {
     PropertyModel updatedProperty = newProperty;
     _selectedProperty = updatedProperty;
-    updateAvailableSpaces();
     notifyListeners();
   }
 
-  updateAvailableSpaces() {
-    _availableSpaces = selectedProperty!.availableSpaces;
-    print('${_availableSpaces}');
+  void setCurrentIndex(AvailableSpace availableSpace, int newIndex) {
+    availableSpace.currentIndex = newIndex;
     notifyListeners();
   }
 }

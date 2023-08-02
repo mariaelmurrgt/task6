@@ -35,8 +35,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
         child: Consumer<PropertyProvider>(
           builder: (context, provider, _) {
             return AppBar(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(10),
+              )),
               toolbarHeight: 140,
-              backgroundColor: Color(0xFF607385),
+              backgroundColor: Color(0xFF3C4955),
               title: Column(
                 children: [
                   SizedBox(
@@ -48,20 +52,95 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       SizedBox(width: 8),
                       Expanded(
                         child: Container(
+                            height: 40,
+                            width: 310,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  left: 5,
+                                  top: 8,
+                                  child: Container(
+                                    height: 24,
+                                    width: 24,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.white,
+                                    ),
+                                    child: SvgIcon(
+                                      icon: SvgIconData(
+                                          'assets/icons/propertyIcon.svg'),
+                                      color: Color(0xFF323E48),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: DropdownButton2<PropertyModel>(
+                                    underline: Container(),
+                                    value: provider.selectedProperty,
+                                    isExpanded: true,
+                                    hint: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'Select Property',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: 'MontserratRegular',
+                                              color: Color(0xFF323E48),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    items: provider.properties.map((property) {
+                                      return DropdownMenuItem(
+                                        value: property,
+                                        child: Text(
+                                          property.propertyName,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: 'MontserratMedium',
+                                            color: Color(0xFF323E48),
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      provider.updateSelectedProperty(value!);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            )),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
                           height: 40,
-                          width: 310,
+                          width: 160,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.white,
                           ),
                           child: DropdownButton2<PropertyModel>(
-                            value: provider.selectedProperty,
+                            underline: Container(),
                             isExpanded: true,
                             hint: const Row(
                               children: [
                                 SvgIcon(
-                                  icon: SvgIconData(
-                                      'assets/icons/propertyIcon.svg'),
+                                  icon:
+                                      SvgIconData('assets/icons/dateIcon.svg'),
                                   color: Color(0xFF323E48),
                                 ),
                                 SizedBox(
@@ -69,7 +148,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    'Select Property',
+                                    'Select Dates',
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: 'MontserratRegular',
@@ -79,92 +158,47 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                 ),
                               ],
                             ),
-                            items: provider.properties.map((property) {
-                              return DropdownMenuItem(
-                                value: property,
-                                child: Text(property.propertyName),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              provider.updateSelectedProperty(value!);
-                            },
+                            items: [],
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        height: 40,
-                        width: 160,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.white,
-                        ),
-                        child: DropdownButton2<PropertyModel>(
-                          isExpanded: true,
-                          hint: const Row(
-                            children: [
-                              SvgIcon(
-                                icon: SvgIconData('assets/icons/dateIcon.svg'),
-                                color: Color(0xFF323E48),
-                              ),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Select Dates',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'MontserratRegular',
-                                    color: Color(0xFF323E48),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          items: [],
                         ),
                       ),
                       SizedBox(
                         width: 5,
                       ),
-                      Container(
-                        height: 40,
-                        width: 163,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.white,
-                        ),
-                        child: DropdownButton2<PropertyModel>(
-                          isExpanded: true,
-                          hint: const Row(
-                            children: [
-                              Icon(
-                                Icons.person_add,
-                                color: Color(0xFF323E48),
-                              ),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Guests & Rooms',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'MontserratRegular',
-                                    color: Color(0xFF323E48),
+                      Expanded(
+                        child: Container(
+                          height: 40,
+                          width: 163,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                          ),
+                          child: DropdownButton2<PropertyModel>(
+                            underline: Container(),
+                            isExpanded: true,
+                            hint: const Row(
+                              children: [
+                                Icon(
+                                  Icons.person_add,
+                                  color: Color(0xFF323E48),
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    'Guests & Rooms',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'MontserratRegular',
+                                      color: Color(0xFF323E48),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                            items: [],
                           ),
-                          items: [],
                         ),
                       ),
                     ],
@@ -196,9 +230,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: provider.availableSpaces.length,
+              itemCount: provider.selectedProperty == null
+                  ? 0
+                  : provider.selectedProperty!.availableSpaces.length,
               itemBuilder: (context, index) {
-                final availableSpaces = provider.availableSpaces[index];
+                final availableSpaces =
+                    provider.selectedProperty!.availableSpaces[index];
                 return PropertyCard(availableSpaces: availableSpaces);
               },
             ),
