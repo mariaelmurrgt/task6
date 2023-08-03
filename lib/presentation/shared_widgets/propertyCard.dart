@@ -20,8 +20,11 @@ class _PropertyCardState extends State<PropertyCard> {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Colors.white,
+        ),
         margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-        color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

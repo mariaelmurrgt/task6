@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg_icons/flutter_svg_icons.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:task6/models/property.dart';
+import 'package:task6/presentation/shared_widgets/drawer.dart';
 import 'package:task6/presentation/shared_widgets/propertyCard.dart';
 import 'package:task6/provider/propertyProvider.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ class HomePageScreen extends StatefulWidget {
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -30,11 +32,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     PropertyProvider provider = Provider.of<PropertyProvider>(context);
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: MyDrawer(),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(140),
         child: Consumer<PropertyProvider>(
           builder: (context, provider, _) {
             return AppBar(
+              automaticallyImplyLeading: false,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(10),
@@ -48,7 +53,13 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   ),
                   Row(
                     children: [
-                      SvgIcon(icon: SvgIconData('assets/icons/burgerIcon.svg')),
+                      IconButton(
+                          onPressed: () {
+                            _scaffoldKey.currentState?.openDrawer();
+                          },
+                          icon: SvgIcon(
+                              icon:
+                                  SvgIconData('assets/icons/burgerIcon.svg'))),
                       SizedBox(width: 8),
                       Expanded(
                         child: Container(
@@ -66,10 +77,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   child: Container(
                                     height: 24,
                                     width: 24,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white,
-                                    ),
                                     child: SvgIcon(
                                       icon: SvgIconData(
                                           'assets/icons/propertyIcon.svg'),
@@ -78,7 +85,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 20),
+                                  padding: EdgeInsets.only(left: 25),
                                   child: DropdownButton2<PropertyModel>(
                                     underline: Container(),
                                     value: provider.selectedProperty,
