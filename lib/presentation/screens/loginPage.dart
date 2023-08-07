@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task6/presentation/shared_widgets/textField.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,6 +12,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String _errorMessage = '';
+
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +57,17 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                _errorMessage,
+                style: TextStyle(
+                  color: Colors.red[300],
+                  fontFamily: 'MontserratRegular',
+                  fontSize: 12,
+                ),
+              ),
+            ),
             CustomTextField(
               title: 'Email',
               controller: _emailController,
@@ -71,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                   GestureDetector(
                     onTap: () {},
                     child: Text(
-                      'Forgert Password?',
+                      'Forget Password?',
                       style: TextStyle(
                         color: Color(0xFF297BE6),
                         fontFamily: 'MontserratRegular',
@@ -90,7 +109,44 @@ class _LoginPageState extends State<LoginPage> {
                     child: SizedBox(
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (_emailController.text.trim().isEmpty) {
+                            setState(() {
+                              _errorMessage = 'Please enter your email.';
+                            });
+                          } else if (_passwordController.text.isEmpty) {
+                            setState(() {
+                              _errorMessage = 'Please enter your password.';
+                            });
+                          } else {
+                            try {
+                              await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text.trim(),
+                              );
+
+                              Navigator.pushNamed(context, '/loading');
+                            } catch (e) {
+                              if (e is FirebaseAuthException) {
+                                if (e.code == 'invalid-email') {
+                                  setState(() {
+                                    _errorMessage = 'Invalid email format.';
+                                  });
+                                } else if (e.code == 'wrong-password') {
+                                  setState(() {
+                                    _errorMessage = 'Invalid password.';
+                                  });
+                                } else {
+                                  setState(() {
+                                    _errorMessage =
+                                        'Email or password may be wrong.';
+                                  });
+                                }
+                              }
+                            }
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFF297BE6),
                         ),

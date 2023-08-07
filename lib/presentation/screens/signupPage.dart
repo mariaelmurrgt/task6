@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task6/presentation/shared_widgets/textField.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:task6/service/firebase_service.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -9,10 +11,22 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final FireBaseService _firestoreService = FireBaseService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
+
+  void _handleSignUp() async {
+    await _firestoreService.createUserAndSaveToFirestore(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+      firstName: _firstNameController.text,
+      lastName: _lastNameController.text,
+    );
+    Navigator.pushNamed(context, '/loading');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,7 +111,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: SizedBox(
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          _handleSignUp();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFF297BE6),
                         ),

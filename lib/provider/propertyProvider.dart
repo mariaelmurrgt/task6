@@ -19,7 +19,7 @@ class PropertyProvider with ChangeNotifier {
   getAllProperties() async {
     _properties = await service.getAllProperties();
     _selectedProperty = _properties.first;
-    print("Fetched countries: $_properties");
+    print("Fetched properties: $_properties");
     notifyListeners();
   }
 
