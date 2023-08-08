@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_icons/flutter_svg_icons.dart';
+import 'package:provider/provider.dart';
+import 'package:task6/navigation/handle_navigation.dart';
+import 'package:task6/presentation/shared_widgets/snackbar.dart';
 import 'package:task6/presentation/shared_widgets/textField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:task6/provider/userProvider.dart';
+import 'package:task6/service/firebase_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,6 +16,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final FireBaseService _firestoreService = FireBaseService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String _errorMessage = '';
@@ -18,6 +25,22 @@ class _LoginPageState extends State<LoginPage> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _handleLogin() async {
+    FocusScope.of(context).unfocus();
+    String error = await _firestoreService.userLogIn(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+    setState(() {
+      _errorMessage = error;
+    });
+    if (_errorMessage == '') {
+      Provider.of<UserProvider>(context, listen: false).checkUserLogInSignUp();
+    } else {
+      GlobalSnackbar.showError(context, _errorMessage);
+    }
   }
 
   @override
@@ -47,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Image.asset('assets/keeLogo.png'),
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 45),
+              margin: EdgeInsets.only(bottom: 40),
               child: Text(
                 'You need to login to complete the booking process',
                 style: TextStyle(
@@ -57,28 +80,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                _errorMessage,
-                style: TextStyle(
-                  color: Colors.red[300],
-                  fontFamily: 'MontserratRegular',
-                  fontSize: 12,
-                ),
-              ),
-            ),
             CustomTextField(
               title: 'Email',
               controller: _emailController,
               hintText: 'example@gmail.com',
-              isObsucred: false,
             ),
-            CustomTextField(
+            CustomTextFieldPassword(
               title: 'Password',
               controller: _passwordController,
               hintText: '********',
-              isObsucred: true,
+              isObscured: true,
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -109,43 +120,8 @@ class _LoginPageState extends State<LoginPage> {
                     child: SizedBox(
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () async {
-                          if (_emailController.text.trim().isEmpty) {
-                            setState(() {
-                              _errorMessage = 'Please enter your email.';
-                            });
-                          } else if (_passwordController.text.isEmpty) {
-                            setState(() {
-                              _errorMessage = 'Please enter your password.';
-                            });
-                          } else {
-                            try {
-                              await FirebaseAuth.instance
-                                  .signInWithEmailAndPassword(
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text.trim(),
-                              );
-
-                              Navigator.pushNamed(context, '/loading');
-                            } catch (e) {
-                              if (e is FirebaseAuthException) {
-                                if (e.code == 'invalid-email') {
-                                  setState(() {
-                                    _errorMessage = 'Invalid email format.';
-                                  });
-                                } else if (e.code == 'wrong-password') {
-                                  setState(() {
-                                    _errorMessage = 'Invalid password.';
-                                  });
-                                } else {
-                                  setState(() {
-                                    _errorMessage =
-                                        'Email or password may be wrong.';
-                                  });
-                                }
-                              }
-                            }
-                          }
+                        onPressed: () {
+                          _handleLogin();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFF297BE6),
@@ -179,7 +155,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/signupmain');
+                      //Navigator.pushNamed(context, '/signupmain');
+                      HandleNavigation.push('/signupmain');
                     },
                     child: Text(
                       'SIGN UP',

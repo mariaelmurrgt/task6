@@ -74,6 +74,7 @@ flutter:
     - assets/keeLogo.png
     - assets/icons/burgerIcon.svg
     - assets/icons/dateIcon.svg
+    - assets/icons/impIcon.svg
     - assets/icons/dropDownIcon.svg
     - assets/icons/propertyIcon.svg
     - assets/icons/starIcon.svg

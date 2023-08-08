@@ -6,12 +6,45 @@ import 'package:task6/provider/userProvider.dart';
 class FireBaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  Future<String> userLogIn({
+    required String email,
+    required String password,
+  }) async {
+    String errorMessage = '';
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        if (e is FirebaseAuthException) {
+          if (e.code == 'invalid-email') {
+            errorMessage = 'Invalid email format.';
+          } else if (e.code == 'wrong-password') {
+            errorMessage = 'Invalid password.';
+          } else {
+            if (email.isEmpty) {
+              errorMessage = 'Please enter your email.';
+            } else if (password.isEmpty) {
+              errorMessage = 'Please enter your password.';
+            } else {
+              errorMessage = 'Email or password may be wrong.';
+            }
+          }
+        }
+      }
+    }
+    return errorMessage;
+  }
+
   Future<String> createUserAndSaveToFirestore({
     required String email,
     required String password,
     required String firstName,
     required String lastName,
   }) async {
+    String errorMessage = '';
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
@@ -29,16 +62,32 @@ class FireBaseService {
             .collection('users')
             .doc(user.uid)
             .set(userModel.toJson());
-        return 'success';
       }
     } catch (e) {
       if (e is FirebaseAuthException) {
-        return e.code;
-      } else {
-        return 'unknown_error';
+        if (e is FirebaseAuthException) {
+          if (e.code == 'invalid-email') {
+            errorMessage = 'Invalid email format.';
+          } else if (e.code == 'wrong-password') {
+            errorMessage = 'Invalid password.';
+          } else if (e.code == 'email-already-in-use') {
+            errorMessage = 'Email already exits.';
+          } else {
+            if (email.isEmpty) {
+              errorMessage = 'Please enter your email.';
+            } else if (password.isEmpty) {
+              errorMessage = 'Please enter your password.';
+            } else if (!password.contains(RegExp(r'[A-Z]'))) {
+              errorMessage =
+                  'Password should contain 8 characters and at least 1 uppercase letter.';
+            } else {
+              errorMessage = 'Something went wrong.';
+            }
+          }
+        }
       }
     }
-    return 'unknown_error';
+    return errorMessage;
   }
 
   Future<UserModel?> checkLoggedInUserAndFetchData() async {
