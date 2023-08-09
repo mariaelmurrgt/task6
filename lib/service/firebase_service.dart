@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:task6/models/user.dart';
-import 'package:task6/provider/userProvider.dart';
+import 'package:task6/provider/user_provider.dart';
 
 class FireBaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -45,6 +45,11 @@ class FireBaseService {
     required String lastName,
   }) async {
     String errorMessage = '';
+    if (password.length < 8 && !password.contains(RegExp(r'[A-Z]'))) {
+      errorMessage =
+          'Password should contain 8 characters and at least 1 uppercase letter.';
+      return errorMessage;
+    }
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
@@ -65,24 +70,19 @@ class FireBaseService {
       }
     } catch (e) {
       if (e is FirebaseAuthException) {
-        if (e is FirebaseAuthException) {
-          if (e.code == 'invalid-email') {
-            errorMessage = 'Invalid email format.';
-          } else if (e.code == 'wrong-password') {
-            errorMessage = 'Invalid password.';
-          } else if (e.code == 'email-already-in-use') {
-            errorMessage = 'Email already exits.';
+        if (e.code == 'invalid-email') {
+          errorMessage = 'Invalid email format.';
+        } else if (e.code == 'wrong-password') {
+          errorMessage = 'Invalid password.';
+        } else if (e.code == 'email-already-in-use') {
+          errorMessage = 'Email already exits.';
+        } else {
+          if (email.isEmpty) {
+            errorMessage = 'Please enter your email.';
+          } else if (password.isEmpty) {
+            errorMessage = 'Please enter your password.';
           } else {
-            if (email.isEmpty) {
-              errorMessage = 'Please enter your email.';
-            } else if (password.isEmpty) {
-              errorMessage = 'Please enter your password.';
-            } else if (!password.contains(RegExp(r'[A-Z]'))) {
-              errorMessage =
-                  'Password should contain 8 characters and at least 1 uppercase letter.';
-            } else {
-              errorMessage = 'Something went wrong.';
-            }
+            errorMessage = 'Something went wrong.';
           }
         }
       }

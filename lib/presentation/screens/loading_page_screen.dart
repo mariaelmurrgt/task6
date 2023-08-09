@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task6/models/user.dart';
-import 'package:task6/navigation/handle_navigation.dart';
-import 'package:task6/provider/userProvider.dart';
-import 'package:task6/service/firebase_service.dart';
+import 'package:task6/provider/user_provider.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -13,7 +11,7 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  final FireBaseService _firestoreService = FireBaseService();
+  //final FireBaseService _firestoreService = FireBaseService();
   @override
   void initState() {
     super.initState();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task6/models/language.dart';
 import 'package:task6/models/state.dart';
-import 'package:task6/service/completeProfileService.dart';
+import 'package:task6/service/complete_profile_service.dart';
 import '../models/country.dart';
 import '../models/city.dart';
 

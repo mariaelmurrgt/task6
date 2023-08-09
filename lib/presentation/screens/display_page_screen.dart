@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task6/provider/completeProfileProvider.dart';
+import 'package:task6/provider/complete_profile_provider.dart';
 import 'package:provider/provider.dart';
 
 class Display extends StatefulWidget {

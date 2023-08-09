@@ -80,6 +80,8 @@ flutter:
     - assets/icons/starIcon.svg
     - assets/icons/backArrow.png
     - assets/icons/xLogo.png
+    - assets/icons/eyeIcon.svg
+    - assets/icons/eyeOffIcon.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

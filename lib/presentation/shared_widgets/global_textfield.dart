@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_icons/flutter_svg_icons.dart';
 
 class CustomTextField extends StatelessWidget {
   final String title;
@@ -70,6 +71,9 @@ class _CustomTextFieldPasswordState extends State<CustomTextFieldPassword> {
   bool _obscureText = true;
 
   Widget build(BuildContext context) {
+    final icon = _obscureText
+        ? SvgIconData('assets/icons/eyeOffIcon.svg')
+        : SvgIconData('assets/icons/eyeIcon.svg');
     return Container(
       margin: EdgeInsets.fromLTRB(20, 5, 20, 10),
       padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
@@ -104,8 +108,8 @@ class _CustomTextFieldPasswordState extends State<CustomTextFieldPassword> {
                 ),
               ),
               IconButton(
-                icon: Icon(
-                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                icon: SvgIcon(
+                  icon: icon,
                   color: Color(0xFFB2BBCA),
                 ),
                 onPressed: () {

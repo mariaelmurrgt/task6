@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg_icons/flutter_svg_icons.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:task6/models/property.dart';
-import 'package:task6/presentation/shared_widgets/drawer.dart';
-import 'package:task6/presentation/shared_widgets/propertyCard.dart';
-import 'package:task6/provider/propertyProvider.dart';
+import 'package:task6/presentation/shared_widgets/drawer.dart.dart';
+import 'package:task6/presentation/shared_widgets/property_card.dart';
+import 'package:task6/provider/property_provider.dart';
 import 'package:provider/provider.dart';
 
 class HomePageScreen extends StatefulWidget {

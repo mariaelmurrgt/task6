@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg_icons/flutter_svg_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:task6/models/property.dart';
-import 'package:task6/provider/propertyProvider.dart';
+import 'package:task6/provider/property_provider.dart';
 
 class PropertyCard extends StatefulWidget {
   final AvailableSpace availableSpaces;

@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task6/navigation/app_routes.dart';
 import 'package:task6/navigation/handle_navigation.dart';
-import 'package:task6/presentation/screens/displayPage.dart';
-import 'package:task6/presentation/screens/loadingPage.dart';
-import 'package:task6/presentation/screens/loginPage.dart';
-import 'package:task6/presentation/screens/signupPage.dart';
-import 'package:task6/provider/propertyProvider.dart';
-import 'package:task6/provider/userProvider.dart';
+import 'package:task6/presentation/screens/display_page_screen.dart';
+import 'package:task6/presentation/screens/loading_page_screen.dart';
+import 'package:task6/presentation/screens/login_page_screen.dart';
+import 'package:task6/presentation/screens/signup_page_screen.dart';
+import 'package:task6/provider/property_provider.dart';
+import 'package:task6/provider/user_provider.dart';
 import 'presentation/screens/home_page_screen.dart';
-import 'presentation/screens/signup.dart';
-import 'provider/completeProfileProvider.dart';
+import 'presentation/screens/complete_signup_page_screen.dart';
+import 'provider/complete_profile_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,7 +53,6 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (BuildContext context) {
         return LoadingScreen();
       });
-
     case AppRoutes.homeRoute:
       return MaterialPageRoute(builder: (BuildContext context) {
         return HomePageScreen();
@@ -70,7 +69,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       });
     case AppRoutes.singUpRoute:
       return MaterialPageRoute(builder: (BuildContext context) {
-        return SignUp();
+        return CompleteSignUp();
       });
     case AppRoutes.displayRoute:
       return MaterialPageRoute(builder: (BuildContext context) {

@@ -4,17 +4,17 @@ import 'package:task6/models/city.dart';
 import 'package:task6/models/country.dart';
 import 'package:task6/models/language.dart';
 import 'package:task6/models/state.dart';
-import 'package:task6/presentation/shared_widgets/globalButton.dart';
-import 'package:task6/provider/completeProfileProvider.dart';
+import 'package:task6/presentation/shared_widgets/global_button.dart';
+import 'package:task6/provider/complete_profile_provider.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class CompleteSignUp extends StatefulWidget {
+  const CompleteSignUp({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<CompleteSignUp> createState() => _CompleteSignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _CompleteSignUpState extends State<CompleteSignUp> {
   @override
   void initState() {
     // TODO: implement initState
